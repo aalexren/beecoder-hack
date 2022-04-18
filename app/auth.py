@@ -20,7 +20,7 @@ def login():
         # authorization check
         user_ref = db.collection('entrance_status').document(email)
         user = user_ref.get()
-        if qr_num == key:
+        if str(qr_num) == str(key):
             if user.exists:
                 user_ref.update({'status': True})
                 return jsonify({'status':200, 'key':qr_num})
