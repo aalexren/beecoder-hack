@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/qrcode.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="qrcode"></div>
+    <script type="text/javascript">
+        async function fetchAsync (url) {
+            let response = await fetch(url);
+            let data = await response.text();
+            console.log(data);
+            return data;
+        }
+
+        var qrcode = new QRCode("qrcode", {
+            text: "",
+            // width: 128,
+            // height: 128,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+
+        (async function(){
+            var data = await fetchAsync("/qr-code/seed");
+            qrcode.clear();
+            qrcode.makeCode(data);
+            setTimeout(arguments.callee, 3000);
+        })();
+    </script>
+</body>
+</html>
