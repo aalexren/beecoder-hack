@@ -27,4 +27,4 @@ def login():
             return jsonify({'status':300, 'key':qr_num})
         else:
             return jsonify({'status':400, 'key':qr_num})
-    return jsonify({'status':400,'key':qr_num})
+    return jsonify({'status':500,'key':qr_num})
