@@ -1,5 +1,5 @@
 from app import app
 
 @app.route('/hello')
-def hello():
+async def hello():
     return 'Hello'
