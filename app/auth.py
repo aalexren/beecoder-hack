@@ -10,12 +10,12 @@ def login():
         json = request.get_json()
         email = json['email']
         key = json['key']
-        print(email, key)
 
-        f = open(join(app.config['QR_FOLDER'],'qr_file.txt'), 'r')
-        qr_num = f.read()
+        f_path = join(app.config['QR_FOLDER'],'qr_file.txt')
+        print(f_path)
+        f = open(f_path, 'r')
+        qr_num = int(f.read())
         f.close()
-        print(qr_num)
         
         # authorization check
         user_ref = db.collection('entrance_status').document(email)
