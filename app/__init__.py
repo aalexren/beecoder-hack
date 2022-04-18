@@ -18,7 +18,7 @@ def update_qr_num():
         qr_num['number'] = randint(1, 100000000)
 
 thread = threading.Thread(name='update_qr_num', target=update_qr_num)
-thread.setDaemon(True)
+# thread.setDaemon(True)
 thread.start()
 
 import firebase_admin
