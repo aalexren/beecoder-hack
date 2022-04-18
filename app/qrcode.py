@@ -8,5 +8,8 @@ def qr_code():
 # Random number to generate qr code
 @app.route('/qr-code/seed')
 def qr_code_seed():
-    print(qr_num)
-    return f'{qr_num["number"]}'
+    f = open(app.config['QR_FOLDER'] + 'qr_file.txt', 'r')
+    qr_num = f.read()
+    f.close()
+    return f'{qr_num}'
+    # return f'{qr_num["number"]}'

@@ -1,5 +1,5 @@
-from crypt import methods
-from app import app, qr_num, db
+# from crypt import methods
+from app import app, db
 from flask import jsonify, request
 
 @app.route('/login', methods=['POST'])
@@ -10,15 +10,20 @@ def login():
         email = json['email']
         key = json['key']
         print(email, key)
+
+        f = open('qr_file.txt', 'r')
+        qr_num = f.read()
+        f.close()
+        print(qr_num)
         
         # authorization check
         user_ref = db.collection('entrance_status').document(email)
         user = user_ref.get()
-        if qr_num['number'] == key:
+        if qr_num == key:
             if user.exists:
                 user_ref.update({'status': True})
                 return jsonify({'status':200})
             return jsonify({'status':300})
         else:
-            return jsonify({'status':400, 'key':qr_num['number']})
-    return jsonify({'status':400,'key':qr_num['number']})
+            return jsonify({'status':400, 'key':qr_num})
+    return jsonify({'status':400,'key':qr_num})
