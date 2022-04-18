@@ -23,8 +23,8 @@ def login():
         if qr_num == key:
             if user.exists:
                 user_ref.update({'status': True})
-                return jsonify({'status':200})
-            return jsonify({'status':300})
+                return jsonify({'status':200, 'key':qr_num})
+            return jsonify({'status':300, 'key':qr_num})
         else:
             return jsonify({'status':400, 'key':qr_num})
     return jsonify({'status':400,'key':qr_num})
