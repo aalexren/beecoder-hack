@@ -31,7 +31,7 @@
             var data = await fetchAsync("/qr-code/seed");
             qrcode.clear();
             qrcode.makeCode(data);
-            setTimeout(arguments.callee, 3000);
+            setTimeout(arguments.callee, 1000);
         })();
     </script>
 </body>

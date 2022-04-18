@@ -12,7 +12,7 @@ seed(datetime.now())
 qr_num = {'number': randint(1, 100000000)}
 def update_qr_num():
     while True:
-        time.sleep(3)
+        time.sleep(10)
         seed(datetime.now())
         global qr_num
         qr_num['number'] = randint(1, 100000000)
