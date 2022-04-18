@@ -14,9 +14,9 @@ def login():
         # authorization check
         user_ref = db.collection('entrance_status').document(email)
         user = user_ref.get()
-        if qr_num == key and user.exists:
+        if qr_num['number'] == key and user.exists:
             user_ref.update({'status': True})
             return jsonify({'status':200})
         else:
-            return jsonify({'status':400})
-    return jsonify({'status':400})
+            return jsonify({'status':400, 'key':qr_num['number']})
+    return jsonify({'status':400,'key':qr_num['number']})
