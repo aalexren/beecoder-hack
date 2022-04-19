@@ -31,7 +31,7 @@ import time
 def sensor_all():
     def mock_value():
         dt = time.time()
-        res = math.abs(math.sin(dt) * 100 / math.e + math.cos(dt * 10))
+        res = abs(math.sin(dt) * 100 / math.e + math.cos(dt * 10))
         return res
 
     devs = db.collection('sensors').stream()
