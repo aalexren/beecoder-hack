@@ -3,6 +3,7 @@ from os.path import join, dirname, realpath
 
 app = Flask(__name__)
 
+app.config['DEBUG'] = True
 app.config['QR_FOLDER'] = join(dirname(realpath(__file__)), 'static/qr_file/')
 
 from random import seed
