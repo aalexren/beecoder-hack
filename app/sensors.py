@@ -47,6 +47,14 @@ def sensor_all():
 @app.route('/device/all', methods=['GET'])
 def devices_all():
     devs = db.collection('devices').stream()
+    to_ret = []
+    for dev in devs:
+        di = dev.to_dict()
+        di['uid'] = dev.id
+        ref = db.collection('devices').document(dev.id)
+        # ref.update({'value':mock_value()})
+        to_ret.append(di)
+    return jsonify(to_ret)
     return jsonify([(dev.id, dev.to_dict()) for dev in devs])
 
 @app.route('/sensor/<string:id>', methods=['GET'])
