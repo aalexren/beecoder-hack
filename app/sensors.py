@@ -132,8 +132,10 @@ def user_sensors(email):
     to_ret = []
     device_refs = db.collection('sensors').where('place', '==', room).stream()
     for dev in device_refs:
-        to_ret.append(dev.to_dict())
-        print(dev.to_dict())
+        di = dev.to_dict()
+        di['uid'] = dev.id
+        to_ret.append(di)
+        print(di)
     
     return jsonify(to_ret)
 
@@ -150,7 +152,9 @@ def user_devices(email):
     to_ret = []
     device_refs = db.collection('devices').where('place', '==', room).stream()
     for dev in device_refs:
-        to_ret.append(dev.to_dict())
-        print(dev.to_dict())
+        di = dev.to_dict()
+        di['uid'] = dev.id
+        to_ret.append(di)
+        print(di)
     
     return jsonify(to_ret)
