@@ -25,6 +25,7 @@ from app import app, db
 from flask import request, jsonify
 import math
 import time
+import threading
 # from datetime import datetime
 
 @app.route('/sensor/all', methods=['GET'])
@@ -77,10 +78,22 @@ def boil_kettle(id):
     kettle_ref = db.collection('devices').document(id)
     kettle = kettle_ref.get().to_dict()
 
-    time.sleep(2) # boiling kettle
-    kettle_ref.update({'status':True,'value':97})
-    time.sleep(2)
-    kettle_ref.update({'status':False,'value':25})
+    def temp(kettle_ref):
+        for i in range(25, 105, 5):
+            kettle_ref.update({'status':True,'value':i})
+            time.sleep(1)
+        for i in range(100, 20, -5): 
+            kettle_ref.update({'status':False,'value':i})
+            time.sleep(1)
+
+    if not kettle['status']:
+        thread = threading.Thread(name='temp', target=temp, args=(kettle_ref,))
+        thread.start()
+
+    # time.sleep(2) # boiling kettle
+    # kettle_ref.update({'status':True,'value':97})
+    # time.sleep(2)
+    # kettle_ref.update({'status':False,'value':25})
 
     return jsonify({'status':200})
 
