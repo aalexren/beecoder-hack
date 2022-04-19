@@ -22,7 +22,7 @@ def sensor_all():
     return jsonify([(dev.id, dev.to_dict()) for dev in devs])
 
 @app.route('/devices/all')
-def sensor_all():
+def devices_all():
     devs = db.collection('devices').stream()
     return jsonify([(dev.id, dev.to_dict()) for dev in devs])
 
