@@ -1,25 +1,40 @@
+from enum import Enum
+
+class SensorType(Enum):
+    TEMPERATURE = 'temperature'
+    HUMIDITY = 'humidity'
+
 class Sensor:
-    def __init__(self, name, status=True, value=0):
-        self.name = name
+    def __init__(self, name: str, place: str, type_: SensorType, status=True, value=0):
+        self.name = name # id
         self.status = status
         self.value = value
+        self.place = place
+        self.type_: SensorType = type_
 
-    def get_status(self):
+    def get_status(self) -> str:
         return self.status
 
-    def get_value(self):
+    def get_value(self) -> int:
         return self.value
 
     def __repr__(self):
-        return f'{self.name} has the {self.status} status and {self.value} value'
+        return ' '.join([self.name, str(self.status), str(self.value), self.place, str(self.type_)])
 
 from app import app, db
 from flask import request, jsonify
 
 @app.route('/sensor/all')
 def sensor_all():
+    s = Sensor('a', 'b', SensorType.TEMPERATURE)
+    print(s)
     devs = db.collection('sensors').stream()
-    return jsonify([(dev.id, dev.to_dict()) for dev in devs])
+    to_ret = []
+    for dev in devs:
+        di = dev.to_dict()
+        di['uid'] = dev.id
+        to_ret.append(di)
+    return jsonify(to_ret)
 
 @app.route('/devices/all')
 def devices_all():
