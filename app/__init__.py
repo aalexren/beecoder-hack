@@ -43,4 +43,4 @@ if __name__ == '__main__':
     app.run(debug=True)
     # sched.start()
 
-from app import hello, qrcode, auth
+from app import hello, qrcode, auth, sensors

@@ -8,8 +8,12 @@ def login():
     content_type = request.headers.get('Content-Type')
     if (content_type == 'application/json'):
         json = request.get_json()
-        email = json['email']
-        key = json['key']
+        try:
+            email = json['email']
+            key = json['key']
+        except:
+            email = json[0]['email']
+            key = json[0]['key']
 
         f_path = join(app.config['QR_FOLDER'],'qr_file.txt')
         print(f_path)
