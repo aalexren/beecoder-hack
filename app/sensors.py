@@ -72,6 +72,18 @@ def change_status_bulb(id):
         device_ref.update({'status':True})
     return jsonify({'status':200})
 
+@app.route('/device/kettle/boil/<string:id>', methods=['GET'])
+def boil_kettle(id):
+    kettle_ref = db.collection('devices').document(id)
+    kettle = kettle_ref.get().to_dict()
+
+    time.sleep(2) # boiling kettle
+    kettle_ref.update({'status':True,'value':97})
+    time.sleep(2)
+    kettle_ref.update({'status':False,'value':25})
+
+    return jsonify({'status':200})
+
 @app.route('/gadgets/<string:email>', methods=['GET'])
 def user_gadgets(email):
     user_room_ref = db.collection('user_room').where('email', '==', email).stream()
