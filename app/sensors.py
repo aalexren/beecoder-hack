@@ -23,20 +23,28 @@ class Sensor:
 
 from app import app, db
 from flask import request, jsonify
+import math
+import time
+# from datetime import datetime
 
-@app.route('/sensor/all')
+@app.route('/sensor/all', methods=['GET'])
 def sensor_all():
-    s = Sensor('a', 'b', SensorType.TEMPERATURE)
-    print(s)
+    def mock_value():
+        dt = time.time()
+        res = math.abs(math.sin(dt) * 100 / math.e + math.cos(dt * 10))
+        return res
+
     devs = db.collection('sensors').stream()
     to_ret = []
     for dev in devs:
         di = dev.to_dict()
         di['uid'] = dev.id
+        ref = db.collection('sensors').document(dev.id)
+        ref.update({'value':mock_value()})
         to_ret.append(di)
     return jsonify(to_ret)
 
-@app.route('/devices/all')
+@app.route('/device/all', methods=['GET'])
 def devices_all():
     devs = db.collection('devices').stream()
     return jsonify([(dev.id, dev.to_dict()) for dev in devs])
