@@ -29,10 +29,10 @@ import time
 
 @app.route('/sensor/all', methods=['GET'])
 def sensor_all():
-    def mock_value():
-        dt = time.time()
-        res = abs(math.sin(dt) * 100 / math.e + math.cos(dt * 10))
-        return res
+    # def mock_value():
+    #     dt = time.time()
+    #     res = abs(math.sin(dt) * 5 / math.e + math.cos(dt * 10))
+    #     return res
 
     devs = db.collection('sensors').stream()
     to_ret = []
@@ -40,7 +40,7 @@ def sensor_all():
         di = dev.to_dict()
         di['uid'] = dev.id
         ref = db.collection('sensors').document(dev.id)
-        ref.update({'value':mock_value()})
+        # ref.update({'value':mock_value()})
         to_ret.append(di)
     return jsonify(to_ret)
 
