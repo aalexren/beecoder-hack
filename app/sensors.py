@@ -29,11 +29,6 @@ import time
 
 @app.route('/sensor/all', methods=['GET'])
 def sensor_all():
-    # def mock_value():
-    #     dt = time.time()
-    #     res = abs(math.sin(dt) * 5 / math.e + math.cos(dt * 10))
-    #     return res
-
     devs = db.collection('sensors').stream()
     to_ret = []
     for dev in devs:
@@ -55,7 +50,6 @@ def devices_all():
         # ref.update({'value':mock_value()})
         to_ret.append(di)
     return jsonify(to_ret)
-    return jsonify([(dev.id, dev.to_dict()) for dev in devs])
 
 @app.route('/sensor/<string:id>', methods=['GET'])
 def sensor(id):
@@ -67,3 +61,13 @@ def sensor(id):
         pass
 
     return jsonify(device)
+
+@app.route('/device/bulb/<string:id>', methods=['GET'])
+def change_status_bulb(id):
+    device_ref = db.collection('devices').document(id)
+    device = device_ref.get().to_dict()
+    if device['status']:
+        device_ref.update({'status':False})
+    else:
+        device_ref.update({'status':True})
+    return jsonify({'status':200})
