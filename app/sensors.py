@@ -71,3 +71,25 @@ def change_status_bulb(id):
     else:
         device_ref.update({'status':True})
     return jsonify({'status':200})
+
+@app.route('/gadgets/<string:email>', methods=['GET'])
+def user_gadgets(email):
+    user_room_ref = db.collection('user_room').where('email', '==', email).stream()
+
+    room = ''
+    for user_room in user_room_ref:
+        room = user_room.to_dict()['r_name']
+        print(f'{user_room.to_dict()}')
+        break
+    
+    to_ret = []
+    device_refs = db.collection('devices').where('place', '==', room).stream()
+    for dev in device_refs:
+        to_ret.append(dev.to_dict())
+        print(dev.to_dict())
+
+    sensors_refs = db.collection('sensors').where('place', '==', room).stream()
+    for sen in sensors_refs:
+        to_ret.append(sen.to_dict())
+    
+    return jsonify(to_ret)
